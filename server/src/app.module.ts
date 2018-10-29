@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SharedModule } from './shared/shared.module';
@@ -6,7 +7,11 @@ import { ConfigurationService } from './shared/configuration/configuration.servi
 import { Configuration } from './shared/configuration/configuration.enum';
 
 @Module({
-  imports: [SharedModule],
+  imports: [SharedModule, MongooseModule.forRoot(ConfigurationService.connectionString, {
+      retryDelay: 500,
+      retryAttempts: 3,
+      useNewUrlParser: true,
+  })],
   controllers: [AppController],
   providers: [AppService],
 })

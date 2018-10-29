@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var AppModule_1;
 const common_1 = require("@nestjs/common");
+const mongoose_1 = require("@nestjs/mongoose");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const shared_module_1 = require("./shared/shared.module");
@@ -33,7 +34,11 @@ let AppModule = AppModule_1 = class AppModule {
 };
 AppModule = AppModule_1 = __decorate([
     common_1.Module({
-        imports: [shared_module_1.SharedModule],
+        imports: [shared_module_1.SharedModule, mongoose_1.MongooseModule.forRoot(configuration_service_1.ConfigurationService.connectionString, {
+                retryDelay: 500,
+                retryAttempts: 3,
+                useNewUrlParser: true,
+            })],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     }),
