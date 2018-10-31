@@ -20,7 +20,12 @@ let MapperService = MapperService_1 = class MapperService {
     initializeMapper() {
         this.mapper.initialize(MapperService_1.configure);
     }
-    static configure(config) { }
+    static configure(config) {
+        config
+            .createMap('User', 'UserVm')
+            .forSourceMember('_id', opts => opts.ignored())
+            .forSourceMember('password', opts => opts.ignore());
+    }
 };
 MapperService = MapperService_1 = __decorate([
     common_1.Injectable(),

@@ -17,6 +17,7 @@ const app_service_1 = require("./app.service");
 const shared_module_1 = require("./shared/shared.module");
 const configuration_service_1 = require("./shared/configuration/configuration.service");
 const configuration_enum_1 = require("./shared/configuration/configuration.enum");
+const user_module_1 = require("./user/user.module");
 let AppModule = AppModule_1 = class AppModule {
     constructor(_configurationService) {
         this._configurationService = _configurationService;
@@ -38,7 +39,7 @@ AppModule = AppModule_1 = __decorate([
                 retryDelay: 500,
                 retryAttempts: 3,
                 useNewUrlParser: true,
-            })],
+            }), user_module_1.UserModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     }),

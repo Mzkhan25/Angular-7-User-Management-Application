@@ -9,13 +9,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const configuration_service_1 = require("./configuration/configuration.service");
 const mapper_service_1 = require("./mapper/mapper.service");
+const auth_service_1 = require("./auth/auth.service");
+const jwt_strategy_service_1 = require("./auth/strategies/jwt-strategy.service");
+const user_module_1 = require("../user/user.module");
 let SharedModule = class SharedModule {
 };
 SharedModule = __decorate([
     common_1.Global(),
     common_1.Module({
-        providers: [configuration_service_1.ConfigurationService, mapper_service_1.MapperService],
-        exports: [configuration_service_1.ConfigurationService, mapper_service_1.MapperService]
+        providers: [configuration_service_1.ConfigurationService, mapper_service_1.MapperService, auth_service_1.AuthService, jwt_strategy_service_1.JwtStrategy],
+        exports: [configuration_service_1.ConfigurationService, mapper_service_1.MapperService, auth_service_1.AuthService],
+        imports: [user_module_1.UserModule],
     })
 ], SharedModule);
 exports.SharedModule = SharedModule;
