@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var MapperService_1;
-require("automapper-ts/dist/automapper");
 const common_1 = require("@nestjs/common");
+require("automapper-ts/dist/automapper");
 let MapperService = MapperService_1 = class MapperService {
     constructor() {
         this.mapper = automapper;
@@ -25,6 +25,7 @@ let MapperService = MapperService_1 = class MapperService {
             .createMap('User', 'UserVm')
             .forSourceMember('_id', opts => opts.ignored())
             .forSourceMember('password', opts => opts.ignore());
+        config.createMap('Todo', 'TodoVm').forSourceMember('_id', opts => opts.ignore());
     }
 };
 MapperService = MapperService_1 = __decorate([

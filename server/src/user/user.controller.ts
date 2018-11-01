@@ -1,13 +1,13 @@
-import { Controller, Body, Post, HttpStatus, HttpException } from '@nestjs/common';
-import { UserService } from './user.service';
+import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags } from '@nestjs/swagger';
+import { ApiException } from '../shared/api-exception.model';
+import { GetOperationId } from '../shared/utilities/get-operation-id.helper';
+import { User } from './models/user.model';
+import { LoginResponseVm } from './models/view-models/login-response-vm.model';
+import { LoginVm } from './models/view-models/login-vm.model';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { UserVm } from './models/view-models/user-vm.model';
-import { ApiResponse, ApiOperation, ApiUseTags } from '@nestjs/swagger';
-import { ApiException } from '../shared/api-exception.model';
-import { GetOperationId } from '../shared/utitlies/get-operation-id.helper';
-import { LoginVm } from './models/view-models/login-vm.model';
-import { LoginResponseVm } from './models/view-models/login-response-vm.model';
-import { User } from './models/user.model';
+import { UserService } from './user.service';
 
 @Controller('user')
 @ApiUseTags(User.modelName)
@@ -15,8 +15,8 @@ export class UserController {
     constructor(private readonly _userService: UserService) {}
 
     @Post('register')
-    @ApiResponse({ status: HttpStatus.CREATED, type: UserVm })
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
+    @ApiCreatedResponse({ type: UserVm })
+    @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(User.modelName, 'Register'))
     async register(@Body() vm: RegisterVm): Promise<UserVm> {
         const { username, password } = vm;
@@ -45,8 +45,8 @@ export class UserController {
     }
 
     @Post('login')
-    @ApiResponse({ status: HttpStatus.CREATED, type: LoginResponseVm })
-    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: ApiException })
+    @ApiCreatedResponse({ type: LoginResponseVm })
+    @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(User.modelName, 'Login'))
     async login(@Body() vm: LoginVm): Promise<LoginResponseVm> {
         const fields = Object.keys(vm);

@@ -7,11 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
-const configuration_service_1 = require("./configuration/configuration.service");
-const mapper_service_1 = require("./mapper/mapper.service");
+const user_module_1 = require("../user/user.module");
 const auth_service_1 = require("./auth/auth.service");
 const jwt_strategy_service_1 = require("./auth/strategies/jwt-strategy.service");
-const user_module_1 = require("../user/user.module");
+const configuration_service_1 = require("./configuration/configuration.service");
+const mapper_service_1 = require("./mapper/mapper.service");
 let SharedModule = class SharedModule {
 };
 SharedModule = __decorate([
