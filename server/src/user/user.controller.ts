@@ -1,5 +1,5 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags } from '@nestjs/swagger';
+import { Body, Controller, HttpException, HttpStatus, Post, Get } from '@nestjs/common';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags, ApiOkResponse } from '@nestjs/swagger';
 import { ApiException } from '../shared/api-exception.model';
 import { GetOperationId } from '../shared/utilities/get-operation-id.helper';
 import { User } from './models/user.model';
@@ -8,6 +8,7 @@ import { LoginVm } from './models/view-models/login-vm.model';
 import { RegisterVm } from './models/view-models/register-vm.model';
 import { UserVm } from './models/view-models/user-vm.model';
 import { UserService } from './user.service';
+import { isArray, map } from 'lodash';
 
 @Controller('user')
 @ApiUseTags(User.modelName)
@@ -57,5 +58,19 @@ export class UserController {
         });
 
         return this._userService.login(vm);
+    }
+    @Get()
+    // @Roles(UserRole.Admin, UserRole.User)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @ApiOkResponse({ type: UserVm, isArray: true })
+    @ApiBadRequestResponse({ type: ApiException })
+    @ApiOperation(GetOperationId(User.modelName, 'GetAll'))
+    async get(): Promise<UserVm[]> {
+        try {
+            const users = await this._userService.findAll();
+            return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
