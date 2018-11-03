@@ -50,6 +50,28 @@
           </nz-form-control>
         </nz-form-item>
 
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="anticon anticon-form">
+              <input type="text" nz-input formControlName="address" placeholder="address">
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="anticon anticon-form">
+              <input type="number" nz-input formControlName="age" placeholder="age">
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzPrefixIcon="anticon anticon-form">
+              <input type="number" nz-input formControlName="salary" placeholder="salary">
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
         <nz-form-item class="d-flex align-items-center">
           <button nz-button nzType="primary">Register</button>
           <a class="ml-auto" [routerLink]="['/login']">Switch to Login</a>

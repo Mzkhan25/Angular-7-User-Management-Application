@@ -144,6 +144,66 @@ export class UserClient {
         return _observableOf<UserVm>(<any>null);
     }
 
+    getall(): Observable<UserVm[]> {
+        let url_ = this.baseUrl + "/user";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetall(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetall(<any>response_);
+                } catch (e) {
+                    return <Observable<UserVm[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserVm[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetall(response: HttpResponseBase): Observable<UserVm[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(UserVm.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? ApiException.fromJS(resultData400) : new ApiException();
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserVm[]>(<any>null);
+    }
+
     login(loginVm: LoginVm): Observable<LoginResponseVm> {
         let url_ = this.baseUrl + "/user/login";
         url_ = url_.replace(/[?&]$/, "");
@@ -460,10 +520,13 @@ export class TodoClient {
 }
 
 export class RegisterVm implements IRegisterVm {
-    username!: string;
-    password!: string;
-    firstName?: string | null;
-    lastName?: string | null;
+    username: string;
+    password: string;
+    firstName?: string;
+    lastName?: string;
+    address?: string;
+    age?: number;
+    salary?: number;
 
     constructor(data?: IRegisterVm) {
         if (data) {
@@ -476,10 +539,13 @@ export class RegisterVm implements IRegisterVm {
 
     init(data?: any) {
         if (data) {
-            this.username = data["username"] !== undefined ? data["username"] : <any>null;
-            this.password = data["password"] !== undefined ? data["password"] : <any>null;
-            this.firstName = data["firstName"] !== undefined ? data["firstName"] : <any>null;
-            this.lastName = data["lastName"] !== undefined ? data["lastName"] : <any>null;
+            this.username = data["username"];
+            this.password = data["password"];
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.address = data["address"];
+            this.age = data["age"];
+            this.salary = data["salary"];
         }
     }
 
@@ -492,10 +558,13 @@ export class RegisterVm implements IRegisterVm {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["username"] = this.username !== undefined ? this.username : <any>null;
-        data["password"] = this.password !== undefined ? this.password : <any>null;
-        data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
-        data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
+        data["username"] = this.username;
+        data["password"] = this.password;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["address"] = this.address;
+        data["age"] = this.age;
+        data["salary"] = this.salary;
         return data; 
     }
 }
@@ -503,19 +572,25 @@ export class RegisterVm implements IRegisterVm {
 export interface IRegisterVm {
     username: string;
     password: string;
-    firstName?: string | null;
-    lastName?: string | null;
+    firstName?: string;
+    lastName?: string;
+    address?: string;
+    age?: number;
+    salary?: number;
 }
 
 export class UserVm implements IUserVm {
-    createdAt?: Date | null;
-    updatedAt?: Date | null;
-    id?: string | null;
-    username!: string;
-    firstName?: string | null;
-    lastName?: string | null;
-    fullName?: string | null;
-    role?: UserVmRole | null;
+    createdAt?: Date;
+    updatedAt?: Date;
+    id?: string;
+    username: string;
+    firstName?: string;
+    lastName?: string;
+    fullName?: string;
+    address?: string;
+    age?: number;
+    salary?: number;
+    role?: UserVmRole;
 
     constructor(data?: IUserVm) {
         if (data) {
@@ -528,14 +603,17 @@ export class UserVm implements IUserVm {
 
     init(data?: any) {
         if (data) {
-            this.createdAt = data["createdAt"] ? new Date(data["createdAt"].toString()) : <any>null;
-            this.updatedAt = data["updatedAt"] ? new Date(data["updatedAt"].toString()) : <any>null;
-            this.id = data["id"] !== undefined ? data["id"] : <any>null;
-            this.username = data["username"] !== undefined ? data["username"] : <any>null;
-            this.firstName = data["firstName"] !== undefined ? data["firstName"] : <any>null;
-            this.lastName = data["lastName"] !== undefined ? data["lastName"] : <any>null;
-            this.fullName = data["fullName"] !== undefined ? data["fullName"] : <any>null;
-            this.role = data["role"] !== undefined ? data["role"] : <any>null;
+            this.createdAt = data["createdAt"] ? new Date(data["createdAt"].toString()) : <any>undefined;
+            this.updatedAt = data["updatedAt"] ? new Date(data["updatedAt"].toString()) : <any>undefined;
+            this.id = data["id"];
+            this.username = data["username"];
+            this.firstName = data["firstName"];
+            this.lastName = data["lastName"];
+            this.fullName = data["fullName"];
+            this.address = data["address"];
+            this.age = data["age"];
+            this.salary = data["salary"];
+            this.role = data["role"];
         }
     }
 
@@ -548,27 +626,33 @@ export class UserVm implements IUserVm {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : <any>null;
-        data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>null;
-        data["id"] = this.id !== undefined ? this.id : <any>null;
-        data["username"] = this.username !== undefined ? this.username : <any>null;
-        data["firstName"] = this.firstName !== undefined ? this.firstName : <any>null;
-        data["lastName"] = this.lastName !== undefined ? this.lastName : <any>null;
-        data["fullName"] = this.fullName !== undefined ? this.fullName : <any>null;
-        data["role"] = this.role !== undefined ? this.role : <any>null;
+        data["createdAt"] = this.createdAt ? this.createdAt.toISOString() : <any>undefined;
+        data["updatedAt"] = this.updatedAt ? this.updatedAt.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        data["username"] = this.username;
+        data["firstName"] = this.firstName;
+        data["lastName"] = this.lastName;
+        data["fullName"] = this.fullName;
+        data["address"] = this.address;
+        data["age"] = this.age;
+        data["salary"] = this.salary;
+        data["role"] = this.role;
         return data; 
     }
 }
 
 export interface IUserVm {
-    createdAt?: Date | null;
-    updatedAt?: Date | null;
-    id?: string | null;
+    createdAt?: Date;
+    updatedAt?: Date;
+    id?: string;
     username: string;
-    firstName?: string | null;
-    lastName?: string | null;
-    fullName?: string | null;
-    role?: UserVmRole | null;
+    firstName?: string;
+    lastName?: string;
+    fullName?: string;
+    address?: string;
+    age?: number;
+    salary?: number;
+    role?: UserVmRole;
 }
 
 export class ApiException implements IApiException {
