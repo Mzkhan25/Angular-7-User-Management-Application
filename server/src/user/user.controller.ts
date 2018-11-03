@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post, Get } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post, Get, Query, Param } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags, ApiOkResponse, ApiImplicitQuery } from '@nestjs/swagger';
 import { ApiException } from '../shared/api-exception.model';
 import { GetOperationId } from '../shared/utilities/get-operation-id.helper';
@@ -9,6 +9,8 @@ import { RegisterVm } from './models/view-models/register-vm.model';
 import { UserVm } from './models/view-models/user-vm.model';
 import { UserService } from './user.service';
 import { isArray, map } from 'lodash';
+import { TodoLevel } from 'todo/models/todo-level.enum';
+import { ToBooleanPipe } from 'shared/pipes/to-boolean.pipe';
 
 @Controller('user')
 @ApiUseTags(User.modelName)
@@ -59,7 +61,7 @@ export class UserController {
 
         return this._userService.login(vm);
     }
-    @Get()
+    @Get('GetAllUsers')
     // @Roles(UserRole.Admin, UserRole.User)
     // @UseGuards(AuthGuard('jwt'), RolesGuard)
     @ApiOkResponse({ type: UserVm, isArray: true })
@@ -75,4 +77,59 @@ export class UserController {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @Get('filterByAge')
+    // @Roles(UserRole.Admin, UserRole.User)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @ApiOkResponse({ type: UserVm, isArray: true })
+    @ApiBadRequestResponse({ type: ApiException })
+    @ApiOperation(GetOperationId(User.modelName, 'filterByAge'))
+    @ApiImplicitQuery({ name: 'userAge', required: false})
+    @ApiImplicitQuery({ name: 'oper', required: false })
+    @ApiImplicitQuery({ name: 'asc', required: false })
+    async filterByAge(
+        @Query('userAge') userAge: number,
+        @Query('oper') oper: string,
+        @Query('asc') asc: boolean,
+        ): Promise<UserVm[]> {
+        try
+        {
+            if (oper === 'lt')
+            {
+               const users = await this._userService.findAll({age: {$lt: userAge }});
+               return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+            }
+
+            else if (oper === 'lte')
+             {
+                const users = await this._userService.findAll({age: {$lte: userAge }});
+                return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+             }
+             else if (oper === 'gt')
+             {
+                 const users = await this._userService.findAll({age: {$gt: userAge }});
+                 return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+            }
+             else if (oper === 'gte')
+             {
+                 const users = await this._userService.findAll({age: {$gte: userAge }});
+                 return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+            }
+             else if (oper === 'eq')
+             {
+                 const users = await this._userService.findAll({age: {$eq: userAge }});
+                 return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+            }
+             else if (oper === 'ne')
+             {
+                 const users = await this._userService.findAll({age: {$ne: userAge }});
+                 return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+            }
+
+            // return this._userService.map<UserVm[]>(map(users, user => user.toJSON()));
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

@@ -122,7 +122,7 @@ export class TodoController {
         }
     }
 
-    @Delete(':id')
+    @Delete(':ids')
     // @Roles(UserRole.Admin)
     // @UseGuards(AuthGuard('jwt'), RolesGuard)
     @ApiOkResponse({ type: TodoVm })
