@@ -46,6 +46,14 @@ export class UserService extends BaseService<User> {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async getAllUsers() {
+        try {
+            const result = await this.findAll();
+            return result;
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     async login(vm: LoginVm): Promise<LoginResponseVm> {
         const { username, password } = vm;

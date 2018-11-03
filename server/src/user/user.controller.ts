@@ -1,5 +1,5 @@
 import { Body, Controller, HttpException, HttpStatus, Post, Get } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags, ApiOkResponse } from '@nestjs/swagger';
+import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags, ApiOkResponse, ApiImplicitQuery } from '@nestjs/swagger';
 import { ApiException } from '../shared/api-exception.model';
 import { GetOperationId } from '../shared/utilities/get-operation-id.helper';
 import { User } from './models/user.model';
@@ -65,6 +65,8 @@ export class UserController {
     @ApiOkResponse({ type: UserVm, isArray: true })
     @ApiBadRequestResponse({ type: ApiException })
     @ApiOperation(GetOperationId(User.modelName, 'GetAll'))
+    // @ApiImplicitQuery({ name: 'level', enum: EnumToArray(TodoLevel), required: false, isArray: true })
+    // @ApiImplicitQuery({ name: 'isCompleted', required: false })
     async get(): Promise<UserVm[]> {
         try {
             const users = await this._userService.findAll();
