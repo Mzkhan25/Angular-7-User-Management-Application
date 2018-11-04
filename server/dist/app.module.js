@@ -17,7 +17,6 @@ const app_service_1 = require("./app.service");
 const configuration_enum_1 = require("./shared/configuration/configuration.enum");
 const configuration_service_1 = require("./shared/configuration/configuration.service");
 const shared_module_1 = require("./shared/shared.module");
-const todo_module_1 = require("./todo/todo.module");
 const user_module_1 = require("./user/user.module");
 let AppModule = AppModule_1 = class AppModule {
     constructor(_configurationService) {
@@ -40,7 +39,7 @@ AppModule = AppModule_1 = __decorate([
                 retryDelay: 500,
                 retryAttempts: 3,
                 useNewUrlParser: true,
-            }), user_module_1.UserModule, todo_module_1.TodoModule],
+            }), user_module_1.UserModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     }),

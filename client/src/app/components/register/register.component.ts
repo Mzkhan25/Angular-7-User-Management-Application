@@ -44,7 +44,7 @@ export class RegisterComponent implements OnInit {
             .pipe(catchError((err: ApiException) => throwError(err)))
             .subscribe((user: UserVm) => {
                 console.log(user);
-                this._router.navigate(['/login']);
+                this._router.navigate(['/dashboard']);
             }, (err: ApiException) => {
                 console.log(err);
             });

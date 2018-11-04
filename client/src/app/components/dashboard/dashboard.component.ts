@@ -44,11 +44,13 @@ export class DashboardComponent implements OnInit {
 this.oper = newObj;
    }
    getFilteredResult(): any {
-    this._userClient.filterbyage(false, this.oper, this.age)
-    .subscribe((users: UserVm[]) => {
-        this.users = users;
-         });
-   }
+     if (this.oper.length > 0 && this.age.toString().length >0) {
+      this._userClient.filterbyage(false, this.oper, this.age)
+      .subscribe((users: UserVm[]) => {
+          this.users = users;
+           });
+     }
+       }
    reset(): any {
     this.users =  this.allUsers;
    }

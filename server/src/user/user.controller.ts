@@ -9,7 +9,6 @@ import { RegisterVm } from './models/view-models/register-vm.model';
 import { UserVm } from './models/view-models/user-vm.model';
 import { UserService } from './user.service';
 import { isArray, map } from 'lodash';
-import { TodoLevel } from 'todo/models/todo-level.enum';
 import { ToBooleanPipe } from 'shared/pipes/to-boolean.pipe';
 
 @Controller('user')
