@@ -16,14 +16,20 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RegisterComponent } from './components/register/register.component';
-import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import {UserdetailComponent} from './components/userdetail/userdetail.component';
 
 registerLocaleData(en);
 
 @NgModule({
-    declarations: [AppComponent, RegisterComponent, LoginComponent, HomeComponent, TodoListComponent, NavbarComponent, DashboardComponent, UserdetailComponent],
+    declarations: [
+        AppComponent,
+        RegisterComponent,
+        LoginComponent,
+         HomeComponent,
+         NavbarComponent,
+         DashboardComponent,
+         UserdetailComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

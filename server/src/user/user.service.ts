@@ -99,6 +99,14 @@ export class UserService extends BaseService<User> {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async delete(id: string) {
+        try {
+            const result = await this.delete(id);
+            return result;
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async login(vm: LoginVm): Promise<LoginResponseVm> {
         const { username, password } = vm;
 

@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { Configuration } from './shared/configuration/configuration.enum';
 import { ConfigurationService } from './shared/configuration/configuration.service';
 import { SharedModule } from './shared/shared.module';
-import { TodoModule } from './todo/todo.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -13,7 +12,7 @@ import { UserModule } from './user/user.module';
         retryDelay: 500,
         retryAttempts: 3,
         useNewUrlParser: true,
-    }), UserModule, TodoModule],
+    }), UserModule],
     controllers: [AppController],
     providers: [AppService],
 })

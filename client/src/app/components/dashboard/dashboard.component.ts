@@ -55,5 +55,13 @@ this.oper = newObj;
    edit(id): any {
     this._router.navigate(['/userdetail/' + id]);
    }
-
+   delete(id): any {
+    this._userClient.delete(id).subscribe(() => {
+      this._userClient.getall()
+      .subscribe((users: UserVm[]) => {
+          this.users = users;
+          this.allUsers = users;
+           });
+       });
+   }
 }

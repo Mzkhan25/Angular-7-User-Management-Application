@@ -1,4 +1,4 @@
-import { Body, Controller, HttpException, HttpStatus, Post, Get, Query, Param } from '@nestjs/common';
+import { Body, Controller, HttpException, HttpStatus, Post, Get, Query, Param, Delete } from '@nestjs/common';
 import { ApiBadRequestResponse, ApiCreatedResponse, ApiOperation, ApiUseTags, ApiOkResponse, ApiImplicitQuery } from '@nestjs/swagger';
 import { ApiException } from '../shared/api-exception.model';
 import { GetOperationId } from '../shared/utilities/get-operation-id.helper';
@@ -145,6 +145,20 @@ export class UserController {
         {
             const user = await this._userService.findById(userId);
             return user;
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @Delete('delete')
+    // @Roles(UserRole.Admin)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @ApiOkResponse({ type: UserVm })
+    @ApiBadRequestResponse({ type: ApiException })
+    @ApiOperation(GetOperationId(User.modelName, 'delete'))
+    async delete(@Param('id') id: string): Promise<UserVm> {
+        try {
+            const deleted = await this._userService.delete(id);
+            return this._userService.map<UserVm>(deleted.toJSON());
         } catch (e) {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
