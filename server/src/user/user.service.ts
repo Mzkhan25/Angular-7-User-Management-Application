@@ -54,15 +54,51 @@ export class UserService extends BaseService<User> {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    async getdum() {
+    async ageFilter(userAge: number, oper: string, asc: boolean) {
         try {
-            const result = await this.findAll();
+            if (oper === 'lt')
+            {
+               const result = await this.findAll({age: {$lt: userAge }});
+               return  result;
+            }
+
+            else if (oper === 'lte')
+             {
+                const result = await this.findAll({age: {$lte: userAge }});
+                return  result;
+             }
+             else if (oper === 'gt')
+             {
+                 const result = await this.findAll({age: {$gt: userAge }});
+                 return  result;
+            }
+             else if (oper === 'gte')
+             {
+                 const result = await this.findAll({age: {$gte: userAge }});
+                 return  result;
+            }
+             else if (oper === 'eq')
+             {
+                 const result = await this.findAll({age: {$eq: userAge }});
+                 return  result;
+            }
+             else if (oper === 'ne')
+             {
+                 const result = await this.findAll({age: {$ne: userAge }});
+                 return  result;
+            }
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    async getUserById(id: string) {
+        try {
+            const result = await this.findById(id);
             return result;
         } catch (e) {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     async login(vm: LoginVm): Promise<LoginResponseVm> {
         const { username, password } = vm;
 

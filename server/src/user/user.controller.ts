@@ -131,5 +131,23 @@ export class UserController {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @Get('userById')
+    // @Roles(UserRole.Admin, UserRole.User)
+    // @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @ApiOkResponse({ type: UserVm, isArray: true })
+    @ApiBadRequestResponse({ type: ApiException })
+    @ApiOperation(GetOperationId(User.modelName, 'userById'))
+    @ApiImplicitQuery({ name: 'userId', required: false})
+    async userById(
+        @Query('userId') userId: string,
+        ): Promise<User> {
+        try
+        {
+            const user = await this._userService.findById(userId);
+            return user;
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

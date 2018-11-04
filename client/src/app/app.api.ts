@@ -145,7 +145,7 @@ export class UserClient {
     }
 
     getall(): Observable<UserVm[]> {
-        let url_ = this.baseUrl + "/user";
+        let url_ = this.baseUrl + "/user/getallusers";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -202,6 +202,127 @@ export class UserClient {
             }));
         }
         return _observableOf<UserVm[]>(<any>null);
+    }
+    filterbyage(asc: boolean, oper: string, userAge: number): Observable<UserVm[]> {
+        let url_ = this.baseUrl + "/user/filterByAge?";
+        if (asc !== undefined)
+            url_ += "asc=" + encodeURIComponent("" + asc) + "&"; 
+        if (oper !== undefined)
+            url_ += "oper=" + encodeURIComponent("" + oper) + "&"; 
+        if (userAge !== undefined)
+            url_ += "userAge=" + encodeURIComponent("" + userAge) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processFilterbyage(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processFilterbyage(<any>response_);
+                } catch (e) {
+                    return <Observable<UserVm[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserVm[]>><any>_observableThrow(response_);
+        }));
+    }
+    protected processFilterbyage(response: HttpResponseBase): Observable<UserVm[]> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (resultData200 && resultData200.constructor === Array) {
+                result200 = [];
+                for (let item of resultData200)
+                    result200.push(UserVm.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? ApiException.fromJS(resultData400) : new ApiException();
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserVm[]>(<any>null);
+    }
+    userbyid(userId: string): Observable<UserVm> {
+        let url_ = this.baseUrl + "/user/userById?";
+        if (userId !== undefined)
+            url_ += "userId=" + encodeURIComponent("" + userId) + "&"; 
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUserbyid(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUserbyid(<any>response_);
+                } catch (e) {
+                    return <Observable<UserVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserVm>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUserbyid(response: HttpResponseBase): Observable<UserVm> {
+        const status = response.status;
+        const responseBlob = 
+            response instanceof HttpResponse ? response.body : 
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }};
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            return _observableOf(resultData200);
+            }));
+        } else if (status === 400) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result400: any = null;
+            let resultData400 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result400 = resultData400 ? ApiException.fromJS(resultData400) : new ApiException();
+            return throwException("A server error occurred.", status, _responseText, _headers, result400);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            console.log(status);
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserVm>(<any>null);
     }
 
     login(loginVm: LoginVm): Observable<LoginResponseVm> {
