@@ -27,3 +27,8 @@ I implemented it using
 ### Future steps
 * Implement update and delete functionality
 * Implement graphs 
+
+
+
+### Shoutout
+A huge shoutout to [Chau Tran](https://github.com/nartc/nest-mean). His code and his youtube tutorial helped me in not only setting the NEST JS server but also basic UI for client. 
