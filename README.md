@@ -5,8 +5,8 @@ This application demonstrates the basic use of User Management portal.
 I implemented it using 
 
 * Nest Js
-* Angular Js
-* Mongoose DB
+* Angular 6
+* Mongodb
 
 
 ## To run server
