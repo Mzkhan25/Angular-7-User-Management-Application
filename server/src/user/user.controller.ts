@@ -76,7 +76,14 @@ export class UserController {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @Post('updateUser')
+    @ApiCreatedResponse({ type: UserVm })
+    @ApiBadRequestResponse({ type: ApiException })
+    @ApiOperation(GetOperationId(User.modelName, 'Update'))
+    async updateUser(@Body() vm: UserVm): Promise<UserVm> {
+        const newUser = await this._userService.updateUser(vm);
+        return this._userService.map<UserVm>(newUser);
+    }
     @Get('filterByAge')
     // @Roles(UserRole.Admin, UserRole.User)
     // @UseGuards(AuthGuard('jwt'), RolesGuard)

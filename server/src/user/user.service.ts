@@ -46,6 +46,24 @@ export class UserService extends BaseService<User> {
             throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    async updateUser(vm: UserVm) {
+        const { username, firstName, lastName, address, salary, age } = vm;
+
+        const newUser = new UserModel();
+        newUser.username = username.trim().toLowerCase();
+        newUser.firstName = firstName;
+        newUser.lastName = lastName;
+        newUser.address = address;
+        newUser.salary = salary;
+        newUser.age = age;
+        vm.username = vm.username.trim().toLowerCase();
+        try {
+            const result = await this.update(vm.id, newUser);
+            return result.toJSON() as User;
+        } catch (e) {
+            throw new HttpException(e, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     async getAllUsers() {
         try {
             const result = await this.findAll();

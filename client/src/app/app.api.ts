@@ -203,6 +203,34 @@ export class UserClient {
         }
         return _observableOf<UserVm[]>(<any>null);
     }
+    updateuser(user: any): Observable<UserVm> {
+        let url_ = this.baseUrl + "/user/updateUser?";
+        const content_ = JSON.stringify(user);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json", 
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processRegister(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processRegister(<any>response_);
+                } catch (e) {
+                    return <Observable<UserVm>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserVm>><any>_observableThrow(response_);
+        }));
+    }
+   
     filterbyage(asc: boolean, oper: string, userAge: number): Observable<UserVm[]> {
         let url_ = this.baseUrl + "/user/filterByAge?";
         if (asc !== undefined)
