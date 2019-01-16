@@ -1,54 +1,43 @@
-import { registerLocaleData } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import en from '@angular/common/locales/en';
-import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { en_US, NgZorroAntdModule, NZ_I18N } from 'ng-zorro-antd';
-import { GoogleChartsModule } from 'angular-google-charts';
-
+import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { API_BASE_URL } from './app.api';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { RegisterComponent } from './components/register/register.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import {UserdetailComponent} from './components/userdetail/userdetail.component';
+import { HomeComponent } from './home/home.component';
+import { AdduserComponent } from './adduser/adduser.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { GraphsComponent } from './graphs/graphs.component';
+import { NavComponent } from './nav/nav.component';
+import { HttpClientModule } from '@angular/common/http';
+import {AccordionModule} from 'primeng/accordion';     //accordion and accordion tab
+import {MenuItem} from 'primeng/api';                 //api
+import {TableModule} from 'primeng/table';
+import {ChartModule} from 'primeng/chart';
 
-registerLocaleData(en);
+
+
+
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        RegisterComponent,
-        LoginComponent,
-         HomeComponent,
-         NavbarComponent,
-         DashboardComponent,
-         UserdetailComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        NgZorroAntdModule,
-        GoogleChartsModule,
-    ],
-    providers: [
-        { provide: NZ_I18N, useValue: en_US },
-        { provide: API_BASE_URL, useFactory: baseUrl },
-    ],
-    bootstrap: [AppComponent],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    AdduserComponent,
+    UserDetailsComponent,
+    GraphsComponent,
+    NavComponent, 
+    
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    AccordionModule,
+    TableModule,
+    ChartModule
+    
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
-export class AppModule {
-}
-
-export function baseUrl(): string {
-    return window.location.origin + '/api';
-}
+export class AppModule { }
