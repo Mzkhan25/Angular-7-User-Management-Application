@@ -1,5 +1,7 @@
 import { Component, OnInit ,ViewChild} from '@angular/core';
 import {MatSort, MatTableDataSource} from '@angular/material';
+import {UserVm, UserService } from '../user.service'
+import { getMultipleValuesInSingleSelectionError } from '@angular/cdk/collections';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -7,16 +9,22 @@ import {MatSort, MatTableDataSource} from '@angular/material';
 })
 export class HomeComponent implements OnInit {
 
+  allUsers :UserVm[];
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   //dataSource = ELEMENT_DATA;
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   @ViewChild(MatSort) sort: MatSort;
-  constructor() { }
+  constructor(private _userservice:UserService) { }
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
+    this.getusers();
   }
+  getusers(){
+//this._userservice.getUsers().then(result=> this.allUsers=result);
+this.allUsers=this._userservice.getUsers();
+  };
   
 }
 export interface PeriodicElement {
