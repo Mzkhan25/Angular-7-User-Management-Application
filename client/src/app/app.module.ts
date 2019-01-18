@@ -11,11 +11,15 @@ import {AccordionModule} from 'primeng/accordion';     //accordion and accordion
 import {MenuItem} from 'primeng/api';                 //api
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
-
+import { NavbarComponent } from './navbar/navbar.component';
+import { GraphsComponent } from './graphs/graphs.component';
+import {ChartModule} from 'primeng/chart';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent
+    HomeComponent,
+    NavbarComponent,
+    GraphsComponent
     
     
   ],
@@ -26,7 +30,8 @@ import {MatSortModule} from '@angular/material/sort';
     MatMenuModule,
     MatIconModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    ChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

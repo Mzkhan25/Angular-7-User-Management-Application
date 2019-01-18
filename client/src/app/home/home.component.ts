@@ -10,20 +10,24 @@ import { getMultipleValuesInSingleSelectionError } from '@angular/cdk/collection
 export class HomeComponent implements OnInit {
 
   allUsers :UserVm[];
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
+  displayedColumns: string[] = ['id','firstname', 'lastname', 'age', 'role','job', 'salary','address'];
   //dataSource = ELEMENT_DATA;
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
+  dataSource = new MatTableDataSource();
+ 
 
   @ViewChild(MatSort) sort: MatSort;
   constructor(private _userservice:UserService) { }
 
   ngOnInit() {
-    this.dataSource.sort = this.sort;
+    
     this.getusers();
   }
   getusers(){
 //this._userservice.getUsers().then(result=> this.allUsers=result);
 this.allUsers=this._userservice.getUsers();
+this.dataSource = new MatTableDataSource(this.allUsers);
+console.log(this.dataSource);
+this.dataSource.sort = this.sort;
   };
   
 }
@@ -46,3 +50,9 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
   {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
 ];
+const users=[
+  {"id":"0","firstname":"Muiz 0","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
+  {"id":"1","firstname":"Muiz 1","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
+  {"id":"2","firstname":"Muiz 2","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
+  {"id":"3","firstname":"Muiz 3","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500}
+      ];
