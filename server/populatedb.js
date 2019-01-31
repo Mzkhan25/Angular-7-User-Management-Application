@@ -47,7 +47,7 @@ function userCreate(first_name, last_name,user_name,address,job,salary, d_birth,
     console.log('New User: ' + user);
     users.push(user)
     
-  //  cb(null, user)
+   //cb(null, user)
   }  );
 }
 
