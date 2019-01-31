@@ -36,12 +36,7 @@ export class UserService {
           )
     })
   .toPromise()
-  .then(res => {
-    console.log(res);
-  }
-    )
   .then(data => {
-    console.log(data);
     return data;
   }).catch(e => {
     console.log(e);
