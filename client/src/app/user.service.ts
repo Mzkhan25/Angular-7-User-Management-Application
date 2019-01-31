@@ -1,26 +1,52 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-  constructor() { }
-  getUsers(){
-    let users=[
-      {"id":"0","firstname":"Muiz 0","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
-      {"id":"1","firstname":"Muiz 1","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
-      {"id":"2","firstname":"Muiz 2","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
-      {"id":"3","firstname":"Muiz 3","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500}
-          ];
-          // return this.http.get('https://reqres.in/api/users')
-          // .toPromise()
-          // .then(res => <UserVm[]>users
-          //   )
-          // .then(data => { return users; });
-          return users;
+  private http: HttpClient;
+  constructor( http: HttpClient) {
+    this.http = http;
   }
+  // getUsers(){
+  //   let users=[
+  //     {"id":"0","firstname":"Muiz 0","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
+  //     {"id":"1","firstname":"Muiz 1","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
+  //     {"id":"2","firstname":"Muiz 2","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500},
+  //     {"id":"3","firstname":"Muiz 3","lastname": "Khan","age":2,"role":null,"username":"","createdAt": null,"updatedAt": null, "address": "Pakistan", "job":"Software Engineer", "salary":2500}
+  //         ];
+  //         // return this.http.get('https://reqres.in/api/users')
+  //         // .toPromise()
+  //         // .then(res => <UserVm[]>users
+  //         //   )
+  //         // .then(data => { return users; });
+  //         return users;
+  // }
+  getAllUsers() {
+    console.log("res");
+    return this.http.get('http://localhost:3000/users/',
+    {
+      headers:
+          new HttpHeaders(
+            {
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            }
+          )
+    })
+  .toPromise()
+  .then(res => {
+    console.log(res);
+  }
+    )
+  .then(data => {
+    console.log(data);
+    return data;
+  }).catch(e => {
+    console.log(e);
+});
+}
 }
 export class UserVm implements IUserVm {
   createdAt?: Date;

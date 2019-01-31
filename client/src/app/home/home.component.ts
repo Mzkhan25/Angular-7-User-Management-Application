@@ -24,12 +24,12 @@ export class HomeComponent implements OnInit {
   }
   getusers(){
 //this._userservice.getUsers().then(result=> this.allUsers=result);
-this.allUsers=this._userservice.getUsers();
-this.dataSource = new MatTableDataSource(this.allUsers);
-console.log(this.dataSource);
-this.dataSource.sort = this.sort;
-  };
-  
+const data = this._userservice.getAllUsers();
+// this.dataSource = new MatTableDataSource(this.allUsers);
+// console.log(this.dataSource);
+// this.dataSource.sort = this.sort;
+console.log(data);
+  }
 }
 export interface PeriodicElement {
   name: string;

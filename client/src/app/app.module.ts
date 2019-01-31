@@ -14,6 +14,7 @@ import {MatSortModule} from '@angular/material/sort';
 import { NavbarComponent } from './navbar/navbar.component';
 import { GraphsComponent } from './graphs/graphs.component';
 import {ChartModule} from 'primeng/chart';
+import { HttpClientModule  } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +32,8 @@ import {ChartModule} from 'primeng/chart';
     MatIconModule,
     MatTableModule,
     MatSortModule,
-    ChartModule
+    ChartModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
