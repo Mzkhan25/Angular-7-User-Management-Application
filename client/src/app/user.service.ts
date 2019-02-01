@@ -1,6 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders  } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
+
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+    'Authorization': 'my-auth-token'
+  })
+};
 @Injectable({
   providedIn: 'root'
 })
@@ -10,7 +20,7 @@ export class UserService {
     this.http = http;
   }
   getAllUsers() {
-     return this.http.get('http://localhost:3000/users/',
+     return this.http.get('http://localhost:3000/users/getAllUsers',
     {
       headers:
           new HttpHeaders(
@@ -28,18 +38,33 @@ export class UserService {
 });
 }
 saveUser(user: any){
-
+  return this.http.post('http://localhost:3000/users/saveUser',
+  {
+    headers:
+        new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        ),
+    data: user
+  })
+.toPromise()
+.then(data => {
+  return data;
+}).catch(e => {
+  console.log(e);
+});
 }
 
 }
 export class UserVm  {
-  _id?: string;
-  first_name: string;
-  last_name?: string;
-  user_name?: string;
-  fullName?: string;
-  address?: string;
-  date_of_birth?: number;
-  salary?: number;
-  job?: string;
+    first_name: string;
+  last_name: string;
+  user_name: string;
+  fullName: string;
+  address: string;
+  date_of_birth: number;
+  salary: number;
+  job: string;
 }

@@ -11,6 +11,9 @@ router.use(function(req, res, next) {
 // router.get('/', function(req, res, next) {
 //   res.send('respond with a resource');
 // });
-router.get('/', user_controller.users_list);
+
+router.get('/getAllUsers', user_controller.users_list);
+router.post('/saveUser', user_controller.saveUser);
+
 
 module.exports = router;
