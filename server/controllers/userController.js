@@ -20,14 +20,14 @@ exports.users_list = function(req, res, next) {
   //save user
   exports.saveUser = function(req, res, next) {
 
-    console.log(req.body.data);
     var user = new User(req.body.data);
   
     user.save(function (err) {
       if (err) {
         next(err);
       } else {
-        res.json(user);
+        //res.json(user);
+        res.send(true);
       }
     });
   };

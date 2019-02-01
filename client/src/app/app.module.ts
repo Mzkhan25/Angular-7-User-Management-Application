@@ -15,6 +15,7 @@ import {ChartModule} from 'primeng/chart';
 import { HttpClientModule  } from '@angular/common/http';
 import { AddUserComponent } from './add-user/add-user.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import {MessageService} from 'primeng/api';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
