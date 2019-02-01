@@ -1,6 +1,6 @@
-import { Component, OnInit ,ViewChild} from '@angular/core';
+import { Component, OnInit , ViewChild} from '@angular/core';
 import {MatSort, MatTableDataSource} from '@angular/material';
-import {UserVm, UserService } from '../user.service'
+import {UserVm, UserService } from '../user.service';
 import { getMultipleValuesInSingleSelectionError } from '@angular/cdk/collections';
 @Component({
   selector: 'app-home',
@@ -9,22 +9,21 @@ import { getMultipleValuesInSingleSelectionError } from '@angular/cdk/collection
 })
 export class HomeComponent implements OnInit {
 
-  allUsers :UserVm[];
-  //displayedColumns: string[] = ['id','firstname', 'lastname', 'age', 'role','job', 'salary','address'];
-  displayedColumns: string[] = ['first_name', 'last_name', 'job', 'salary','address'];
- 
+  allUsers: UserVm[];
+  // displayedColumns: string[] = ['id','firstname', 'lastname', 'age', 'role','job', 'salary','address'];
+  displayedColumns: string[] = ['first_name', 'last_name', 'job', 'salary', 'address'];
+
   dataSource = new MatTableDataSource();
- users : any;
+ users: any;
 
   @ViewChild(MatSort) sort: MatSort;
-  constructor(private _userservice:UserService) { }
+  constructor(private _userservice: UserService) { }
 
   ngOnInit() {
     this.getusers();
   }
 
-  getusers()
-  {
+  getusers() {
  this._userservice.getAllUsers().then(result => {
    this.users = result;
    this.dataSource = new MatTableDataSource(this.users);
