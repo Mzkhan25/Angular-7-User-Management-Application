@@ -4,11 +4,11 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema(
   {
-    first_name: {type: String, required: true, max: 100},
-    last_name: {type: String, required: true, max: 100},
-    user_name: {type: String, required: true, max: 100},
+    first_name: {type: String, required: true, max: 10},
+    last_name: {type: String, required: true, max: 10},
+    user_name: {type: String, required: true, max: 10},
     address: {type: String, required: true, max: 100},
-    job: {type: String, required: true, max: 100},
+    job: {type: String, required: true, max: 25},
     salary: {type: Number, required: true},
     date_of_birth: {type: Date},
     
