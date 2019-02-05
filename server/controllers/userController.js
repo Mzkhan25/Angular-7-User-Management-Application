@@ -44,7 +44,17 @@ exports.users_list = function(req, res, next) {
       }
     });
   };
+//save user
+exports.updateUser = function(req, res, next) {
 
+  var user = new User(req.body.data);
+user.isDeleted=false;
+console.log(user);
+  User.findByIdAndUpdate(user._id,user,function (err, user) {
+    if (err)   next(err);
+    res.send(true);
+  });
+};
     //delete user
     exports.deleteUser = function(req, res, next) {
       console.log(req.body.data);

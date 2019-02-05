@@ -16,7 +16,7 @@ router.get('/getAllUsers', user_controller.users_list);
 router.get('/getUser', user_controller.getUserById);
 router.post('/saveUser', user_controller.saveUser);
 router.post('/deleteUser', user_controller.deleteUser);
-router.post('/updateUser', user_controller.saveUser);
+router.post('/updateUser', user_controller.updateUser);
 
 
 module.exports = router;

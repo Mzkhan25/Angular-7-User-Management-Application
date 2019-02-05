@@ -31,6 +31,9 @@ export class UserDetailComponent implements OnInit  {
 
     });
   }
+  saveClicked(){
+    this.router.navigate(['/addUser', this.user._id]);
+  }
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
     this.getUser();

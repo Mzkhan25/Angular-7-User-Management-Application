@@ -97,6 +97,25 @@ deleteUser(id: String) {
   console.log(e);
 });
 }
+updateUser(user: any) {
+  return this.http.post('http://localhost:3000/users/updateUser',
+  {
+    headers:
+        new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        ),
+    data: user
+  })
+.toPromise()
+.then(data => {
+  return data;
+}).catch(e => {
+  console.log(e);
+});
+}
 }
 export class UserVm  {
     first_name: string;
@@ -107,4 +126,5 @@ export class UserVm  {
   date_of_birth: number;
   salary: number;
   job: string;
+  _id: String;
 }
