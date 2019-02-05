@@ -13,7 +13,10 @@ router.use(function(req, res, next) {
 // });
 
 router.get('/getAllUsers', user_controller.users_list);
+router.get('/getUser', user_controller.getUserById);
 router.post('/saveUser', user_controller.saveUser);
+router.post('/deleteUser', user_controller.deleteUser);
+router.post('/updateUser', user_controller.saveUser);
 
 
 module.exports = router;

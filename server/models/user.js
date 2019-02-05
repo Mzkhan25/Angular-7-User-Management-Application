@@ -11,7 +11,7 @@ var UserSchema = new Schema(
     job: {type: String, required: true, max: 25},
     salary: {type: Number, required: true},
     date_of_birth: {type: Date},
-    
+    isDeleted : {type: Boolean}
   }
 );
 

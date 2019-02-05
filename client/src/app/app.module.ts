@@ -55,6 +55,7 @@ import {
   MatTooltipModule,
   MatTreeModule,
 } from '@angular/material';
+import { UserDetailComponent } from './user-detail/user-detail.component';
 
 
 
@@ -64,7 +65,8 @@ import {
     HomeComponent,
     NavbarComponent,
     GraphsComponent,
-    AddUserComponent
+    AddUserComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,47 @@
+
+
+<div class="example-container offset-md-2 col-md-8" >
+ 
+ <div class="row">
+   <b>Full Name : </b>  {{user.first_name}} {{user.last_name}} 
+
+ </div>
+ <div class="row">
+    <b>User Name : </b>  {{user.user_name}}
+  </div>
+ <div class="row">
+    <b>Date of Birth : </b>  {{user.date_of_birth | date:'yyyy-MM-dd '}} 
+ 
+  </div>
+  <div class="row">
+      <b>Address : </b>  {{user.address}} 
+    </div>
+    <div class="row">
+        <b>Job : </b>  {{user.job}} 
+     
+      </div>
+      <div class="row">
+          <b>Salary : </b>  {{user.salary}} 
+        </div>
+
+    <div class="row">
+      
+      <div>     
+      
+        <!-- <button [disabled]="saveDisabled" mat-raised-button color="primary">Save </button> -->
+        <button  mat-raised-button color="primary" (click)="saveClicked()">Update </button>
+             
+      </div>
+      
+      
+      <div style="padding-left: 10px" >     
+      
+        <button mat-raised-button color="warn" (click)="deleteClicked()">Delete</button>
+             
+      </div>
+    </div>
+    
+
+  </div>
+  
+  

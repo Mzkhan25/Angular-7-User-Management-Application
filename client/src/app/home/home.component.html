@@ -9,7 +9,7 @@
 
   <ng-container matColumnDef="first_name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.first_name}} </td>
+    <td mat-cell *matCellDef="let element">  <a [routerLink]="['/userDetail', element._id]">{{element.first_name}}</a> </td>
   </ng-container>
 
 
@@ -37,6 +37,7 @@
   <th mat-header-cell *matHeaderCellDef mat-sort-header> Address </th>
   <td mat-cell *matCellDef="let element"> {{element.address}} </td>
 </ng-container>
+
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

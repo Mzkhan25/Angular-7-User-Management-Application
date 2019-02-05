@@ -37,7 +37,29 @@ export class UserService {
     console.log(e);
 });
 }
-saveUser(user: any){
+getUserById(id: String) {
+  let parameters = new HttpParams();
+  parameters = parameters.append('id', id.toString());
+  return this.http.get('http://localhost:3000/users/getUser',
+  {
+    headers:
+        new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        ),
+        params: parameters
+  }
+  )
+.toPromise()
+.then(data => {
+ return data;
+}).catch(e => {
+ console.log(e);
+});
+}
+saveUser(user: any) {
   return this.http.post('http://localhost:3000/users/saveUser',
   {
     headers:
@@ -56,7 +78,25 @@ saveUser(user: any){
   console.log(e);
 });
 }
-
+deleteUser(id: String) {
+  return this.http.post('http://localhost:3000/users/deleteUser',
+  {
+    headers:
+        new HttpHeaders(
+          {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          }
+        ),
+    data: id
+  })
+.toPromise()
+.then(data => {
+  return data;
+}).catch(e => {
+  console.log(e);
+});
+}
 }
 export class UserVm  {
     first_name: string;
